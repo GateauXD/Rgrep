@@ -9,43 +9,43 @@
  */
 int matches_leading(char *partial_line, char *pattern) {
   // Implement if desire
-	int i = 0;
-
-	while(i < strlen(pattern)){ //read through pattern
-
-		if(pattern[i] == '.'){ //once you see dot assign start character
-			char start = pattern[i-1];
-
-			int j = i;
-
-			while(pattern[j] == '.'){ //count all dots
-				j++;
-			}
-
-			char end = pattern[i + j - 1]; //end character is beginning plus amount of dots minus one
-			char end1 = pattern[i+j];
-
-
-			if(start == '\000' && end1 != '\000'){ //if only beginning is null and the amount of dots is == to end
-				if(partial_line[j] == end1)
-					return 1;
-			}
-			else if(start != '\000' && end == '\000'){ //if only end is null and the amount of dots is == to start
-				if(partial_line[0] == start)
-					return 1;
-			}
-			else if(start == '\000' && end1 == '\00'){ //if no charcters and just dots
-				if(strlen(partial_line) >= j){
-					return 1;
-				}
-			}
-
-			else if((partial_line[0] == start && partial_line[j] == end)){//if both exsist
-				return 1;
-			}
-		}
-		i++;
-	}
+	// int i = 0;
+	//
+	// while(i < strlen(pattern)){ //read through pattern
+	//
+	// 	if(pattern[i] == '.'){ //once you see dot assign start character
+	// 		char start = pattern[i-1];
+	//
+	// 		int j = i;
+	//
+	// 		while(pattern[j] == '.'){ //count all dots
+	// 			j++;
+	// 		}
+	//
+	// 		char end = pattern[i + j - 1]; //end character is beginning plus amount of dots minus one
+	// 		char end1 = pattern[i+j];
+	//
+	//
+	// 		if(start == '\000' && end1 != '\000'){ //if only beginning is null and the amount of dots is == to end
+	// 			if(partial_line[j] == end1)
+	// 				return 1;
+	// 		}
+	// 		else if(start != '\000' && end == '\000'){ //if only end is null and the amount of dots is == to start
+	// 			if(partial_line[0] == start)
+	// 				return 1;
+	// 		}
+	// 		else if(start == '\000' && end1 == '\00'){ //if no charcters and just dots
+	// 			if(strlen(partial_line) >= j){
+	// 				return 1;
+	// 			}
+	// 		}
+	//
+	// 		else if((partial_line[0] == start && partial_line[j] == end)){//if both exsist
+	// 			return 1;
+	// 		}
+	// 	}
+	// 	i++;
+	// }
 
 	return 0;
 }
