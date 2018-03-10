@@ -34,6 +34,11 @@ int matches_leading(char *partial_line, char *pattern) {
 				if(partial_line[0] == start)
 					return 1;
 			}
+			else if(start == '\000' && end1 == '\00'){
+				if(strlen(partial_line) >= j){
+					return 1;
+				}
+			}
 
 			else if((partial_line[0] == start && partial_line[j] == end)){
 				return 1;
@@ -91,3 +96,4 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
+
