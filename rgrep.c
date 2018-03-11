@@ -49,16 +49,16 @@ int matches_leading(char *partial_line, char *pattern) {
 
 	int i = 0;
 	int j = 0;
-	char preceding = '';
+	char preceding;
 
 	while (i <= strlen(pattern)) {
 		if(pattern[i] == '+'){
-			char preceding = pattern[i-1];
+			preceding = pattern[i-1];
 		}
 		i++;
 	}
 
-	for(j = 0; j!(>strlen(partial_line)); j++){
+	for(j = 0; j <= strlen(partial_line); j++){
 		if (partial_line[j] == preceding) {
 			return 1;
 
