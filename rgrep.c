@@ -66,6 +66,7 @@ int matches_leading(char *partial_line, char *pattern) {
 			for(j = 0; j <= strlen(partial_line); j++){
 				
 				if(preceding == '.'){
+					dot = 1;
 					preceding = '\000';
 				}
 				if (partial_line[j] == preceding) {
@@ -79,24 +80,38 @@ int matches_leading(char *partial_line, char *pattern) {
 			char arr[strlen(pattern)];
 			char arr2[strlen(pattern)];
 			int j = 0;
-
+			int arrcount = 0;
+			int arrcount2 = 0; 
 			while(j < strlen(pattern)){
 				if(j == i-1){
-					arr2[j] = pattern[j];
+					arr2[arrcount2] = pattern[j];
+					arrcount2++;
 				}
 				else if(j == i){
 
 				}
 				else{
-					arr[j] = pattern[j];
-					arr2[j] = pattern[j];
+					arr[arrcount] = pattern[j];
+					arr2[arrcount2] = pattern[j];
+					arrcount2++;
+					arrcount++;
 				}
 				j++;
 			}
+			arr[arrcount] = '\0';
+			arr2[arrcount2] = '\0';
 
-			if(arr == partial_line || arr2 == partial_line){
-				return 1;
+			int k = 0;
+			for(k = 0; k < strlen(arr2); k++){
+				if(arr[k] != partial_line[k] && arr2[k] != partial_line[k]){
+					return 0;
+				}
+				question = 1;
 			}
+		}
+
+		else{
+
 		}
 
 		i++;
