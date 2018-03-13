@@ -10,10 +10,16 @@
 int matches_leading(char *partial_line, char *pattern) {
   // Implement if desire 
 	int i = 0;
+	int dot = 1;
+	int plus = 1;
+	int question = 1;
+	int backslash = 1;
 
 	while(i < strlen(pattern)){
 
 		if(pattern[i] == '.'){
+			dot = 0;
+
 			char start = pattern[i-1];
 
 			int j = i;
@@ -26,25 +32,26 @@ int matches_leading(char *partial_line, char *pattern) {
 			char end = pattern[i + j - 1];
 			char end1 = pattern[i+j];
 
+			i = i + j;
 			
 			if((partial_line[0] == start && partial_line[j] == end)){
 
-				return 1;
+				dot = 1;
 			}
 
 			else if(start == '\000' && end1 != '\000'){
 
 				if(partial_line[j] == end1)
-					return 1;
+					dot = 1;
 			}
 			else if(start != '\000' && end == '\000'){
 				
 				if(partial_line[0] == start)
-					return 1;
+					dot =  1;
 			}
 			else if(start == '\000' && end1 == '\000'){
 				if(strlen(partial_line) >= j){
-					return 1;
+					dot = 1;
 				}
 			}
 		}
@@ -52,6 +59,7 @@ int matches_leading(char *partial_line, char *pattern) {
 		char preceding;
 
 		if(pattern[i] == '+'){
+			plus = 0;
 			preceding = pattern[i-1];
 
 			int j;
@@ -61,13 +69,40 @@ int matches_leading(char *partial_line, char *pattern) {
 					preceding = '\000';
 				}
 				if (partial_line[j] == preceding) {
-					return 1;
+					plus = 1;
 
 				}
 			}
 		}
 
+		if(pattern[i] == '?'){
+			char arr[strlen(pattern)];
+			char arr2[strlen(pattern)];
+			int j = 0;
+
+			while(j < strlen(pattern)){
+				if(j == i-1){
+					arr2[j] = pattern[j];
+				}
+				else if(j == i){
+
+				}
+				else{
+					arr[j] = pattern[j];
+					arr2[j] = pattern[j];
+				}
+				j++;
+			}
+
+			if(arr == partial_line || arr2 == partial_line){
+				return 1;
+			}
+		}
+
 		i++;
+	}
+	if(dot == 1 && plus == 1 && question == 1 && backslash ==1){
+		return 1;
 	}
 
 	return 0;
@@ -119,4 +154,5 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
+
 
