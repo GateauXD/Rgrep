@@ -70,18 +70,19 @@ int matches_leading(char *partial_line, char *pattern) {
 	// 	i++;
 	// }
 	int k = 0;
-	char escaped; 
-	if(pattern[k] == '\\'){
-			escaped = pattern[k+1];
+	char escaped;
+	while (k < strlen(pattern)) {
+		if(pattern[k] == '\\'){
+				escaped = pattern[k+1]
+				int j;
+				for(j = 0; j <= strlen(partial_line); j++){
+					if (partial_line[j] == escaped) {
+						return 1;
+					}
 
-			int j;
-			for(j = 0; j <= strlen(partial_line); j++){
+		}
+	}
 
-				if(preceding == '.'){
-					preceding = '\000';
-				}
-				if (partial_line[j] == preceding) {
-					return 1;
 	return 0;
 }
 
