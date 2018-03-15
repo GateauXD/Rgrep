@@ -3,79 +3,91 @@
 #define MAXSIZE 4096
 
 /**
- * You can use this recommended helper function 
+ * You can use this recommended helper function
  * Returns true if partial_line matches pattern, starting from
  * the first char of partial_line.
  */
 int matches_leading(char *partial_line, char *pattern) {
-  // Implement if desire 
-	int i = 0;
-
-	while(i < strlen(pattern)){
-
-		if(pattern[i] == '.'){
-			char start = pattern[i-1];
-
-			int j = i;
-
-			while(pattern[j] == '.'){
-				j++;
-			}
-
-
-			char end = pattern[i + j - 1];
-			char end1 = pattern[i+j];
-
-			
-			if((partial_line[0] == start && partial_line[j] == end)){
-
-				return 1;
-			}
-
-			else if(start == '\000' && end1 != '\000'){
-
-				if(partial_line[j] == end1)
-					return 1;
-			}
-			else if(start != '\000' && end == '\000'){
-				
-				if(partial_line[0] == start)
-					return 1;
-			}
-			else if(start == '\000' && end1 == '\000'){
-				if(strlen(partial_line) >= j){
-					return 1;
-				}
-			}
-		}
-		
-		char preceding;
-
-		if(pattern[i] == '+'){
-			preceding = pattern[i-1];
+  // Implement if desire
+	// int i = 0;
+	//
+	// while(i < strlen(pattern)){
+	//
+	// 	if(pattern[i] == '.'){
+	// 		char start = pattern[i-1];
+	//
+	// 		int j = i;
+	//
+	// 		while(pattern[j] == '.'){
+	// 			j++;
+	// 		}
+	//
+	//
+	// 		char end = pattern[i + j - 1];
+	// 		char end1 = pattern[i+j];
+	//
+	//
+	// 		if((partial_line[0] == start && partial_line[j] == end)){
+	//
+	// 			return 1;
+	// 		}
+	//
+	// 		else if(start == '\000' && end1 != '\000'){
+	//
+	// 			if(partial_line[j] == end1)
+	// 				return 1;
+	// 		}
+	// 		else if(start != '\000' && end == '\000'){
+	//
+	// 			if(partial_line[0] == start)
+	// 				return 1;
+	// 		}
+	// 		else if(start == '\000' && end1 == '\000'){
+	// 			if(strlen(partial_line) >= j){
+	// 				return 1;
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	char preceding;
+	//
+	// 	if(pattern[i] == '+'){
+	// 		preceding = pattern[i-1];
+	//
+	// 		int j;
+	// 		for(j = 0; j <= strlen(partial_line); j++){
+	//
+	// 			if(preceding == '.'){
+	// 				preceding = '\000';
+	// 			}
+	// 			if (partial_line[j] == preceding) {
+	// 				return 1;
+	//
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	i++;
+	// }
+	int k = 0;
+	char escaped; 
+	if(pattern[k] == '\\'){
+			escaped = pattern[k+1];
 
 			int j;
 			for(j = 0; j <= strlen(partial_line); j++){
-				
+
 				if(preceding == '.'){
 					preceding = '\000';
 				}
 				if (partial_line[j] == preceding) {
 					return 1;
-
-				}
-			}
-		}
-
-		i++;
-	}
-
 	return 0;
 }
 
 /**
- * You may assume that all strings are properly null terminated 
- * and will not overrun the buffer set by M     AXSIZE 
+ * You may assume that all strings are properly null terminated
+ * and will not overrun the buffer set by M     AXSIZE
  *
  * Implementation of the rgrep matcher function
  */
@@ -119,4 +131,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
