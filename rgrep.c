@@ -74,7 +74,7 @@ int matches_leading(char *partial_line, char *pattern) {
 
 	while (k <= strlen(pattern)) {
 		if(pattern[k] == '\\'){
-				escaped = pattern[k+1];
+				escaped = pattern[1];
 		k++;
 			}
 				int j;
