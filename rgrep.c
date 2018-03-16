@@ -14,6 +14,9 @@ int matches_leading(char *partial_line, char *pattern) {
 	int plus = 1;
 	int question = 1;
 	int backslash = 1;
+	int charCheckers = 1;
+	char preceding;
+	char stringCheck[strlen(pattern)];
 
 	while(i < strlen(pattern)){
 
@@ -55,10 +58,7 @@ int matches_leading(char *partial_line, char *pattern) {
 				}
 			}
 		}
-		
-		char preceding;
-
-		if(pattern[i] == '+'){
+		else if(pattern[i] == '+'){
 			plus = 0;
 			preceding = pattern[i-1];
 
@@ -76,7 +76,7 @@ int matches_leading(char *partial_line, char *pattern) {
 			}
 		}
 
-		if(pattern[i] == '?'){
+		else if(pattern[i] == '?'){
 			char arr[strlen(pattern)];
 			char arr2[strlen(pattern)];
 			int j = 0;
@@ -109,14 +109,27 @@ int matches_leading(char *partial_line, char *pattern) {
 				question = 1;
 			}
 		}
-
 		else{
-
+			stringCheck[i] = pattern[i];
 		}
 
 		i++;
 	}
-	if(dot == 1 && plus == 1 && question == 1 && backslash ==1){
+	stringCheck[i] = '\0';
+
+	int count = 0;
+	while(stringCheck[count] != '\0'){
+		if(stringCheck[count] == partial_line[count]){
+			charCheckers = 1;
+		}
+		else{
+			charCheckers = 0;
+			break;
+		}
+		count++;
+	}
+
+	if(dot == 1 && plus == 1 && question == 1 && backslash == 1 && charCheckers == 1){
 		return 1;
 	}
 
