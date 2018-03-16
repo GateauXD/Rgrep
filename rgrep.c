@@ -19,8 +19,14 @@ int matches_leading(char *partial_line, char *pattern) {
 	char stringCheck[strlen(pattern)];
 
 	while(i < strlen(pattern)){
-
-		if(pattern[i] == '.'){
+		
+		if(pattern[i] == '\'){
+		   char escape = pattern[i+1];
+		   stringCheck[i] = escape;
+		   i++;
+		}
+		   
+		else if(pattern[i] == '.'){
 			dot = 0;
 
 			char start = pattern[i-1];
