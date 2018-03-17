@@ -7,6 +7,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//If you reached the end of the pattern and did not return 0 then the
 	//pattern passed
 	int i = patternIndex;
+	int slashcheck = 0;
 
 	if(pattern[i] == '\000'){
 		return 1;
@@ -14,7 +15,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 	char next = pattern[i + 1];
 
-	if(pattern[i] == '\\'){
+	if(pattern[i] == '\\' && slashcheck != 1){
+			slashcheck = 1;
 			return matches_leading(partial_line, pattern, i=i+1);
 		}
 
