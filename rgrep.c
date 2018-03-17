@@ -15,8 +15,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	char next = pattern[i + 1];
 
 	if(pattern[i] == '\\'){
-
-	}
+			return matches_leading(partial_line, pattern, i=i+1);
+		}
 
 	else if(pattern[i] == '.'){
 		//This is for the case where it will return any length of char
