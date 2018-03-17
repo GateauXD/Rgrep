@@ -15,11 +15,11 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	char next = pattern[i + 1];
 
 	if(pattern[i] == '\\'){
-			return matches_leading(partial_line, pattern, i=i+1);
-		}
+
+	}
 
 	else if(pattern[i] == '.'){
-		//This is for the case where it will return any length of char
+		//This is for the case where it will return any length of char .+
 		if(next == '+'){
 			return matches_leading(partial_line, pattern, i=i+2);
 		}
@@ -37,7 +37,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//Since the conditon ^ passed then + condition was passed so move on
 		//Move the pattern cursor two to the right to skip the letter and
 		//the +
-		return matches_leading(partial_line, pattern, i = i + 2);
+		return matches_leading(partial_line++, pattern, i = i + 2);
 	}
 	//Like the + where it checks the next character for the wildcard
 	else if(next == '?'){
@@ -58,11 +58,11 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		if(pattern[i] == partial_line[0]){
 			return matches_leading(partial_line++, pattern, ++i);
 		}
-		return 0;
+		else{
+			return 0;
+		}
 	}
-
 	return 0;
-
 }
 
 int rgrep_matches(char *line, char *pattern) {
@@ -102,6 +102,7 @@ int main(int argc, char **argv) {
     perror(argv[0]);
     return 1;
   }
+	printf("\n");
 
   return 0;
 }
