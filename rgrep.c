@@ -39,9 +39,14 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	if(next == '+' && wildcheck == 0){
 		//For the plus if you check the prev character which is i
 		//if the character does not match then the plus will not work
-		if(pattern[i] != partial_line[0]){
+		int lineCount = 0;
+		if(pattern[i] != partial_line[lineCount]){
 			return 0;
 		}
+		while(pattern[i] == *partial_line){
+			partial_line++;
+		}
+
 		//Since the conditon ^ passed then + condition was passed so move on
 		//Move the pattern cursor two to the right to skip the letter and
 		//the +
@@ -109,7 +114,5 @@ int main(int argc, char **argv) {
     perror(argv[0]);
     return 1;
   }
-	printf("\n");
-
   return 0;
 }
