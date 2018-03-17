@@ -24,7 +24,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 			return matches_leading(partial_line, pattern, i=i+2);
 		}
 		//Since the dot will almost always pass then I will move on to the next thing in pattern.
-		return matches_leading(partial_line++, pattern, ++i);
+		return matches_leading(++partial_line, pattern, ++i);
 	}
 	//Check if the next characters is one of the wild cards that rely on the
 	// previous character
@@ -37,7 +37,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//Since the conditon ^ passed then + condition was passed so move on
 		//Move the pattern cursor two to the right to skip the letter and
 		//the +
-		return matches_leading(partial_line++, pattern, i = i + 2);
+		return matches_leading(++partial_line, pattern, i = i + 2);
 	}
 	//Like the + where it checks the next character for the wildcard
 	else if(next == '?'){
@@ -50,13 +50,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//When it includes things before and after the question mark
 		//This means the pattern and partial_line are the same so we need
 		//To check after the ?
-		return matches_leading(partial_line++, pattern, i = i+2);
+		return matches_leading(++partial_line, pattern, i = i+2);
 	}
 	//This means that none of the wildcard got called and that we are checking
 	//if the characters match
 	else{
 		if(pattern[i] == partial_line[0]){
-			return matches_leading(partial_line++, pattern, ++i);
+			return matches_leading(++partial_line, pattern, ++i);
 		}
 		else{
 			return 0;
@@ -85,7 +85,6 @@ int main(int argc, char **argv) {
     return 2;
   }
 
-    /* we're not going to worry about long lines */
   char buf[MAXSIZE];
 
   while (!feof(stdin) && !ferror(stdin)) {
