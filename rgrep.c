@@ -7,6 +7,11 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//If you reached the end of the pattern and did not return 0 then the
 	//pattern passed
 	int i = patternIndex;
+	char plus = '+';
+	char slash ='\\';
+	char dot = '.';
+	char question = '?';
+	int wildcheck = 0;
 
 	if(pattern[i] == '\000'){
 		return 1;
@@ -15,15 +20,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	char next = pattern[i + 1];
 
 	if(pattern[i] == '\\'){
-<<<<<<< HEAD
+		if (pattern[i+1] == plus || slash || dot || question) {
+			wildcheck = 1;
+		}
 			return matches_leading(partial_line, pattern, i=i+1);
 		}
-=======
-		return matches_leading(partial_line, pattern, i=i+1);
-	}
->>>>>>> c381acaee7997c9cb16679b84150cefd4efe680f
 
-	else if(pattern[i] == '.'){
+	else if(pattern[i] == '.' && wildcheck != 1){
 		//This is for the case where it will return any length of char .+
 		if(next == '+'){
 			return matches_leading(partial_line, pattern, i=i+2);
@@ -33,7 +36,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	}
 	//Check if the next characters is one of the wild cards that rely on the
 	// previous character
-	if(next == '+'){
+	if(next == '+' && wildcheck == 0){
 		//For the plus if you check the prev character which is i
 		//if the character does not match then the plus will not work
 		if(pattern[i] != partial_line[0]){
@@ -45,7 +48,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		return matches_leading(++partial_line, pattern, i = i + 2);
 	}
 	//Like the + where it checks the next character for the wildcard
-	else if(next == '?'){
+	else if(next == '?' && wildcheck == 0){
 		//This is the condition where the char before ? does not exist so it moves
 		//on
 		if(pattern[i] != partial_line[0]){
