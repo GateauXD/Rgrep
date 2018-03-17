@@ -8,32 +8,36 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//pattern passed
 	int i = patternIndex;
 
-	while(i < strlen(pattern)){
-		if(pattern[i] == '\000'){
-			return 1;
-		}
-
-		char next = pattern[i + 1];
-		if(i != 0)
-			char prev = pattern[i-1];
-
-		if(pattern[i] == '.'){
-			if(next == '+'){
-				return matches_leading(partial_line, pattern, ++i);
-			}
-		}
-		else if(pattern[i] == '+'){
-
-		}
-		else if(pattern[i] == '?'){
-
-		}
-		else if(partial[i] == '\\'){
-			
-		}
+	if(pattern[i] == '\000'){
+		return 1;
 	}
 
-return 0;
+	char next = pattern[i + 1];
+	if(i != 0)
+		char prev = pattern[i-1];
+
+	if(pattern[i] == '\\'){
+
+	}
+
+	else if(pattern[i] == '.'){
+			//This is for the case where it will return any length of char
+		if(next == '+'){
+			return matches_leading(partial_line, pattern, ++i);
+		}
+			//Since the dot will almost always pass then I will move on to the next thing in pattern.
+		return matches_leading(partial_line++, pattern, ++i);
+	}
+	else if(pattern[i] == '+'){
+
+
+	}
+	else if(pattern[i] == '?'){
+
+
+	}
+
+	return 0;
 
 }
 
