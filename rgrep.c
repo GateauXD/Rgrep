@@ -7,23 +7,30 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//If you reached the end of the pattern and did not return 0 then the
 	//pattern passed
 	int i = patternIndex;
-	int wildcard = 0;
+	int j = 0;
+	//int wildcard = 0;
 
 
 	if(pattern[i] == '\000'){
 		return 1;
 	}
 
+	if(i != 0){
+		char prev = pattern[i - 1];
+	}
 	char next = pattern[i + 1];
-	if(i != 0)
-		char prev = pattern[i-1];
 
 	if(pattern[i] == '\\'){
 		if (next == '?' || next == '.' || next == '+') {
 			wildcard = 1;
-			
-		}
+		char escape = pattern[i+1];
 
+		for(j = 0; j <= strlen(partial_line); j++){
+				if(partial_line[j] == escape){
+				return 1;
+		 }
+	 }
+		}
 	}
 
 	else if(pattern[i] == '.'){
