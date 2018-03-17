@@ -2,165 +2,53 @@
 #include <string.h>
 #define MAXSIZE 4096
 
-/**
- * You can use this recommended helper function
- * Returns true if partial_line matches pattern, starting from
- * the first char of partial_line.
- */
-int matches_leading(char *partial_line, char *pattern) {
-  // Implement if desire
-	int i = 0;
-	int j = 0;
-	int dot = 1;
-	int plus = 1;
-	int question = 1;
-	int backslash = 1;
-	int slashactive = 0;
-	int charCheckers = 1;
-	char preceding;
-	char stringCheck[strlen(pattern)];
+//WIll try to implment a recurssive search pattern
+int matches_leading(char *partial_line, char *pattern, int patternIndex) {
+	//If you reached the end of the pattern and did not return 0 then the
+	//pattern passed
+	int i = patternIndex;
 
 	while(i < strlen(pattern)){
-
-		if(pattern[i] == '\\'){
-		   char escape = pattern[i+1];
-		   stringCheck[i] = escape;
-			 slashactive = 1;
-
-			 for(j = 0; j <= strlen(partial_line); j++){
-					if(partial_line[j] == escape){
-	 				return 1;
-			}
+		if(pattern[i] == '\000'){
+			return 1;
 		}
-	}
 
-		else if(pattern[i] == '.'){
-			dot = 0;
+		char next = pattern[i + 1];
+		if(i != 0)
+			char prev = pattern[i-1];
 
-			char start = pattern[i-1];
-
-			int j = i;
-
-			while(pattern[j] == '.'){
-				j++;
-			}
-
-
-			char end = pattern[i + j - 1];
-			char end1 = pattern[i+j];
-
-			i = i + j;
-
-			if((partial_line[0] == start && partial_line[j] == end)){
-
-				dot = 1;
-			}
-
-			else if(start == '\000' && end1 != '\000'){
-
-				if(partial_line[j] == end1)
-					dot = 1;
-			}
-			else if(start != '\000' && end == '\000'){
-
-				if(partial_line[0] == start)
-					dot =  1;
-			}
-			else if(start == '\000' && end1 == '\000'){
-				if(strlen(partial_line) >= j){
-					dot = 1;
-				}
+		if(pattern[i] == '.'){
+			if(next == '+'){
+				return matches_leading(partial_line, pattern, ++i);
 			}
 		}
 		else if(pattern[i] == '+'){
-			plus = 0;
-			preceding = pattern[i-1];
 
-			int j;
-			for(j = 0; j <= strlen(partial_line); j++){
-
-				if(preceding == '.'){
-					dot = 1;
-					preceding = '\000';
-				}
-				if (partial_line[j] == preceding) {
-					plus = 1;
-
-				}
-			}
 		}
+		else if(pattern[i] == '?'){
 
-		else if(pattern[i] == '?' && pattern[i-1] != '\\'){
-			char arr[strlen(pattern)];
-			char arr2[strlen(pattern)];
-			int j = 0;
-			int arrcount = 0;
-			int arrcount2 = 0;
-			while(j < strlen(pattern)){
-				if(j == i-1){
-					arr2[arrcount2] = pattern[j];
-					arrcount2++;
-				}
-				else if(j == i){
-
-				}
-				else{
-					arr[arrcount] = pattern[j];
-					arr2[arrcount2] = pattern[j];
-					arrcount2++;
-					arrcount++;
-				}
-				j++;
-			}
-			arr[arrcount] = '\0';
-			arr2[arrcount2] = '\0';
-
-			int k = 0;
-			for(k = 0; k < strlen(arr2); k++){
-				if(arr[k] != partial_line[k] && arr2[k] != partial_line[k]){
-					return 0;
-				}
-				question = 1;
-			}
 		}
-		else{
-			stringCheck[i] = pattern[i];
+		else if(partial[i] == '\\'){
+			
 		}
-
-		i++;
-	}
-	stringCheck[i] = '\0';
-
-	int count = 0;
-	while(stringCheck[count] != '\0'){
-		if(stringCheck[count] == partial_line[count]){
-			charCheckers = 1;
-		}
-		else{
-			charCheckers = 0;
-			break;
-		}
-		count++;
 	}
 
-	if(dot == 1 && plus == 1 && question == 1 && backslash == 1 && charCheckers == 1){
-		return 1;
-	
-	}
+return 0;
 
-	return 0;
 }
 
 /**
- * You may assume that all strings are properly null terminated
- * and will not overrun the buffer set by M     AXSIZE
+ * You may assume that all strings are properly null terminated 
+ * and will not overrun the buffer set by M     AXSIZE 
  *
  * Implementation of the rgrep matcher function
  */
 int rgrep_matches(char *line, char *pattern) {
 	int i = 0;
+	//While the line is longer than the pattern pass the partial line through
+	//If any part of the partial lines passes then the line will be printed
 	for(i = strlen(line); i > strlen(pattern); i--){
-		if(matches_leading(line, pattern) == 1){
+		if(matches_leading(line, pattern, 0) == 1){
 			return 1;
 		}
 		else{
@@ -197,3 +85,5 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
+
+
