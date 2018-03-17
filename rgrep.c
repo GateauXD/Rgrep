@@ -7,6 +7,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//If you reached the end of the pattern and did not return 0 then the
 	//pattern passed
 	int i = patternIndex;
+	int wildcard = 0;
+
 
 	if(pattern[i] == '\000'){
 		return 1;
@@ -17,6 +19,10 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		char prev = pattern[i-1];
 
 	if(pattern[i] == '\\'){
+		if (next == '?' || next == '.' || next == '+') {
+			wildcard = 1;
+			
+		}
 
 	}
 
@@ -42,8 +48,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 }
 
 /**
- * You may assume that all strings are properly null terminated 
- * and will not overrun the buffer set by M     AXSIZE 
+ * You may assume that all strings are properly null terminated
+ * and will not overrun the buffer set by M     AXSIZE
  *
  * Implementation of the rgrep matcher function
  */
@@ -89,5 +95,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-
-
