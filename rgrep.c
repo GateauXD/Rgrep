@@ -2,16 +2,21 @@
 #include <string.h>
 #define MAXSIZE 4096
 
+int matches_leading(char*, char*, int);
+
+int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
+	if(pattern[patternIndex] == '+'){
+		if(partial_line[0] == '+'){
+				return matches_leading(++partial_line, pattern, ++patternIndex);
+		}
+	}
+	return 0;
+}
 //WIll try to implment a recurssive search pattern
 int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	//If you reached the end of the pattern and did not return 0 then the
 	//pattern passed
 	int i = patternIndex;
-	char plus = '+';
-	char slash ='\\';
-	char dot = '.';
-	char question = '?';
-	int wildcheck = 0;
 
 	if(pattern[i] == '\000'){
 		return 1;
@@ -20,13 +25,10 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	char next = pattern[i + 1];
 
 	if(pattern[i] == '\\'){
-		if (pattern[i+1] == plus || slash || dot || question) {
-			wildcheck = 1;
-		}
-			return matches_leading(partial_line, pattern, i=i+1);
+			return backSlashCheck(partial_line, pattern, ++i);
 		}
 
-	else if(pattern[i] == '.' && wildcheck != 1){
+	else if(pattern[i] == '.'){
 		//This is for the case where it will return any length of char .+
 		if(next == '+'){
 			return matches_leading(partial_line, pattern, i=i+2);
@@ -36,7 +38,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	}
 	//Check if the next characters is one of the wild cards that rely on the
 	// previous character
-	if(next == '+' && wildcheck == 0){
+	if(next == '+'){
 		//For the plus if you check the prev character which is i
 		//if the character does not match then the plus will not work
 		int lineCount = 0;
@@ -53,7 +55,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		return matches_leading(++partial_line, pattern, i = i + 2);
 	}
 	//Like the + where it checks the next character for the wildcard
-	else if(next == '?' && wildcheck == 0){
+	else if(next == '?'){
 		//This is the condition where the char before ? does not exist so it moves
 		//on
 		if(pattern[i] != partial_line[0]){
@@ -80,7 +82,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 int rgrep_matches(char *line, char *pattern) {
   int i = 0;
-  for(i = strlen(line); i > strlen(pattern); i--){
+  for(i = 0; i < strlen(pattern); i++){
     if(matches_leading(line, pattern, 0) == 1){
       return 1;
     }
