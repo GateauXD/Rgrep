@@ -19,7 +19,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 	char next = pattern[i + 1];
 
-	if(pattern[i] == '\\'){
+	if(pattern[i] == 92){
 		if (pattern[i+1] == plus || slash || dot || question){
 			wildcheck = 1;
 		}
