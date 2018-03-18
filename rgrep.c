@@ -7,7 +7,6 @@ int matches_leading(char*, char*, int);
 //This function will be very similar to the matches_leading
 int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
 	int i = patternIndex;
-
 	//If you reach this point and your pattern++ which is passed through the function
 	//is a '\000' then it reached the end and return 1
 	if(pattern[i] == '\000'){
