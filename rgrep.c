@@ -5,6 +5,7 @@
 int matches_leading(char*, char*, int);
 
 int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
+	
 	if(pattern[patternIndex] == '+'){
 		if(partial_line[0] == '+'){
 				return matches_leading(++partial_line, pattern, ++patternIndex);
@@ -24,14 +25,6 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 	char next = pattern[i + 1];
 
-	if(pattern[i] == 92){
-		if (pattern[i+1] == plus || slash || dot || question){
-			wildcheck = 1;
-		}
-			return matches_leading(partial_line, pattern, i=i+1);
-		}
-
-	else if(pattern[i] == '.' && wildcheck == 0){
 	if(pattern[i] == '\\'){
 			return backSlashCheck(partial_line, pattern, ++i);
 		}
@@ -45,7 +38,6 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		return matches_leading(++partial_line, pattern, ++i);
 	}
 	//Check if the next characters is one of the wild cards that rely on the
-	//previous character
 	// previous character
 	if(next == '+'){
 		//For the plus if you check the prev character which is i
@@ -74,7 +66,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//When it includes things before and after the question mark
 		//This means the pattern and partial_line are the same so we need
 		//To check after the ?
-		return matches_leading(++partial_line, pattern, i = i + 2);
+		return matches_leading(++partial_line, pattern, i = i+2);
 	}
 	//This means that none of the wildcard got called and that we are checking
 	//if the characters match
