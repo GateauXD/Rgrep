@@ -62,6 +62,11 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	else if(pattern[i] == '.'){
 		//This is for the case where it will return any length of char .+
 		if(next == '+'){
+			int next2 = pattern[i+2];
+			int lineCount = 0;
+			while(partial_line[lineCount] != next2){
+				++partial_line;
+			}
 			return matches_leading(partial_line, pattern, i=i+2);
 		}
 		//Since the dot will almost always pass then I will move on to the next thing in pattern.
@@ -72,18 +77,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	if(next == '+'){
 		//For the plus if you check the prev character which is i
 		//if the character does not match then the plus will not work
-		int lineCount = 0;
-		if(pattern[i] != partial_line[lineCount]){
+		if(pattern[i] != partial_line[0]){
 			return 0;
 		}
-		while(pattern[i] == *partial_line){
-			partial_line++;
-		}
-
 		//Since the conditon ^ passed then + condition was passed so move on
 		//Move the pattern cursor two to the right to skip the letter and
 		//the +
-		return matches_leading(++partial_line, pattern, i = i + 2);
+		return matches_leading(++partial_line, pattern, i) || matches_leading(partial_line, pattern, i = i + 2);
 	}
 	//Like the + where it checks the next character for the wildcard
 	else if(next == '?'){
