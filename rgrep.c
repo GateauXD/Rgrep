@@ -24,7 +24,6 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 	char next = pattern[i + 1];
 
-<<<<<<< HEAD
 	if(pattern[i] == 92){
 		if (pattern[i+1] == plus || slash || dot || question){
 			wildcheck = 1;
@@ -33,13 +32,11 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		}
 
 	else if(pattern[i] == '.' && wildcheck == 0){
-=======
 	if(pattern[i] == '\\'){
 			return backSlashCheck(partial_line, pattern, ++i);
 		}
 
 	else if(pattern[i] == '.'){
->>>>>>> 9ad612fa4d26e9c3683d5b64f747418944fb57e0
 		//This is for the case where it will return any length of char .+
 		if(next == '+'){
 			return matches_leading(partial_line, pattern, i=i+2);
@@ -48,11 +45,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		return matches_leading(++partial_line, pattern, ++i);
 	}
 	//Check if the next characters is one of the wild cards that rely on the
-<<<<<<< HEAD
 	//previous character
-=======
 	// previous character
->>>>>>> 9ad612fa4d26e9c3683d5b64f747418944fb57e0
 	if(next == '+'){
 		//For the plus if you check the prev character which is i
 		//if the character does not match then the plus will not work
