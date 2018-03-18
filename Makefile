@@ -2,7 +2,7 @@
 # You must not change this file.
 
 CC = gcc
-FLAGS = -std=c99 -O0 -Wall -Werror -g -pedantic 
+FLAGS = -std=c99 -O0 -Wall -Werror -g -pedantic
 
 rgrep:
 	$(CC) $(FLAGS) rgrep.c -o rgrep
