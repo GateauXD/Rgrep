@@ -13,28 +13,31 @@ int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
 	if(pattern[i] == '\000'){
 		return 1;
 	}
-
 	//Checks for the case if the next character is '\'
 	if(pattern[i] == '\\'){
 		if(partial_line[0] == '\\'){
 			return matches_leading(++partial_line, pattern, ++i);
 		}
 	}
+	//Checks for the case where the . is after the '\'
 	else if(pattern[i] == '.'){
 		if(partial_line[0] == '.'){
 			return matches_leading(++partial_line, pattern, ++i);
 		}
 	}
+	//Checks for the case where the ? is after the '\'
 	else if(pattern[i] == '?'){
 		if(partial_line[0] == '?'){
 			return matches_leading(++partial_line, pattern, ++i);
 		}
 	}
+	//Checks for the case where the + is after the '\'
 	else if(pattern[patternIndex] == '+'){
 		if(partial_line[0] == '+'){
 				return matches_leading(++partial_line, pattern, ++i);
 		}
 	}
+	//This case is when the thing after the '\' is not a wildcard
 	else if(pattern[i] == partial_line[0]){
 			return matches_leading(++partial_line, pattern, ++i);
 	}
@@ -87,13 +90,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//This is the condition where the char before ? does not exist so it moves
 		//on
 		if(pattern[i] != partial_line[0]){
-			//Skips over the ? and moves over the next character
-			return matches_leading(partial_line, pattern, i = i + 2);
+				return matches_leading(partial_line, pattern, i = i+2);
 		}
 		//When it includes things before and after the question mark
 		//This means the pattern and partial_line are the same so we need
 		//To check after the ?
-		return matches_leading(++partial_line, pattern, i = i+2);
+		return matches_leading(partial_line, pattern, i = i + 2) || matches_leading(++partial_line, pattern, i);
+
 	}
 	//This means that none of the wildcard got called and that we are checking
 	//if the characters match
