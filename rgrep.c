@@ -4,12 +4,39 @@
 
 int matches_leading(char*, char*, int);
 
+//This function will be very similar to the matches_leading
 int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
-	
-	if(pattern[patternIndex] == '+'){
-		if(partial_line[0] == '+'){
-				return matches_leading(++partial_line, pattern, ++patternIndex);
+	int i = patternIndex;
+
+	//If you reach this point and your pattern++ which is passed through the function
+	//is a '\000' then it reached the end and return 1
+	if(pattern[i] == '\000'){
+		return 1;
+	}
+
+	//Checks for the case if the next character is '\'
+	if(pattern[i] == '\\'){
+		if(partial_line[0] == '\\'){
+			return matches_leading(++partial_line, pattern, ++i);
 		}
+	}
+	else if(pattern[i] == '.'){
+		if(partial_line[0] == '.'){
+			return matches_leading(++partial_line, pattern, ++i);
+		}
+	}
+	else if(pattern[i] == '?'){
+		if(partial_line[0] == '?'){
+			return matches_leading(++partial_line, pattern, ++i);
+		}
+	}
+	else if(pattern[patternIndex] == '+'){
+		if(partial_line[0] == '+'){
+				return matches_leading(++partial_line, pattern, ++i);
+		}
+	}
+	else if(pattern[i] == partial_line[0]){
+			return matches_leading(++partial_line, pattern, ++i);
 	}
 	return 0;
 }
