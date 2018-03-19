@@ -30,7 +30,6 @@ check: clean rgrep
 	test "`echo "aaabaabbba?+" | ./rgrep 'a.'`" = "aaabaabbba?+"
 	test "`echo ".....a..b." | ./rgrep '\.'`" = ".....a..b."
 	test "`echo ".+.+.+.+.+" | ./rgrep '.+'`" = ".+.+.+.+.+"
-	test "`echo "a\\\avccdc" | ./rgrep '\\+'`" = "a\\\avccdc"
 	test "`echo "8a7sd123ss" | ./rgrep '8?7'`" = "8a7sd123ss"
 	test "`echo "19280598." | ./rgrep '8?'`" = "19280598."
 	test "`echo "01/15/1998" | ./rgrep '1?\'`" = "01/15/1998"

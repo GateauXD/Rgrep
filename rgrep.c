@@ -15,7 +15,7 @@ int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
 	//Checks for the case if the next character is '\'
 	if(pattern[i] == '\\'){
 		if(partial_line[0] == '\\'){
-			return matches_leading(++partial_line, pattern, ++i);
+			return matches_leading(++partial_line, pattern, i = i + 2);
 		}
 	}
 	//Checks for the case where the . is after the '\'
@@ -26,9 +26,10 @@ int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
 	}
 	//Checks for the case where the ? is after the '\'
 	else if(pattern[i] == '?'){
-		if(partial_line[0] == '?'){
-			return matches_leading(++partial_line, pattern, ++i);
+		if(partial_line[0] != '?'){
+			return matches_leading(partial_line, pattern, i);
 		}
+		return matches_leading(partial_line, pattern, ++i) || matches_leading(++partial_line, pattern, i);
 	}
 	//Checks for the case where the + is after the '\'
 	else if(pattern[patternIndex] == '+'){
@@ -90,23 +91,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//This is the condition where the char before ? does not exist so it moves
 		//on
 		if(pattern[i] != partial_line[0]){
-			return matches_leading(partial_line, pattern, i = i+2);
+			return matches_leading(partial_line, pattern, i = i + 2);
 		}
 		//When it includes things before and after the question mark
 		//This means the pattern and partial_line are the same so we need
 		//To check after the ?
 		return matches_leading(partial_line, pattern, i = i + 2) || matches_leading(++partial_line, pattern, i);
 
-	}
-	else if(pattern[i] == '+'){
-		if(partial_line[0] != pattern[i-1]){
-			return 0;
-		}
-		while(pattern[i] == partial_line[0]){
-			++partial_line;
-		}
-
-		return matches_leading(partial_line, pattern, i) || matches_leading(partial_line, pattern, i = i + 2);
 	}
 	//This means that none of the wildcard got called and that we are checking
 	//if the characters match
@@ -123,12 +114,13 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 
 int rgrep_matches(char *line, char *pattern) {
 	int i = 0;
-	while(i < strlen(line) || i < strlen(pattern)){
+	int size = strlen(line);
+	while(i <=  size || i <= strlen(pattern)){
 		if(matches_leading(line, pattern, 0) == 1){
 			return 1;
 		}
 		else{
-			line++;
+			++line;
 			++i;
 		}
 	}
