@@ -33,12 +33,12 @@ int backSlashCheck(char* partial_line, char* pattern, int patternIndex){
 	//Checks for the case where the + is after the '\'
 	else if(pattern[patternIndex] == '+'){
 		if(partial_line[0] == '+'){
-				return matches_leading(++partial_line, pattern, ++i);
+			return matches_leading(++partial_line, pattern, ++i);
 		}
 	}
 	//This case is when the thing after the '\' is not a wildcard
 	else if(pattern[i] == partial_line[0]){
-			return matches_leading(++partial_line, pattern, ++i);
+		return matches_leading(++partial_line, pattern, ++i);
 	}
 	return 0;
 }
@@ -55,8 +55,8 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 	char next = pattern[i + 1];
 
 	if(pattern[i] == '\\'){
-			return backSlashCheck(partial_line, pattern, ++i);
-		}
+		return backSlashCheck(partial_line, pattern, ++i);
+	}
 
 	else if(pattern[i] == '.'){
 		//This is for the case where it will return any length of char .+
@@ -79,6 +79,7 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		if(pattern[i] != partial_line[0]){
 			return 0;
 		}
+
 		//Since the conditon ^ passed then + condition was passed so move on
 		//Move the pattern cursor two to the right to skip the letter and
 		//the +
@@ -89,13 +90,23 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 		//This is the condition where the char before ? does not exist so it moves
 		//on
 		if(pattern[i] != partial_line[0]){
-				return matches_leading(partial_line, pattern, i = i+2);
+			return matches_leading(partial_line, pattern, i = i+2);
 		}
 		//When it includes things before and after the question mark
 		//This means the pattern and partial_line are the same so we need
 		//To check after the ?
 		return matches_leading(partial_line, pattern, i = i + 2) || matches_leading(++partial_line, pattern, i);
 
+	}
+	else if(pattern[i] == '+'){
+		if(partial_line[0] != pattern[i-1]){
+			return 0;
+		}
+		while(pattern[i] == partial_line[0]){
+			++partial_line;
+		}
+
+		return matches_leading(partial_line, pattern, i) || matches_leading(partial_line, pattern, i = i + 2);
 	}
 	//This means that none of the wildcard got called and that we are checking
 	//if the characters match
@@ -111,40 +122,41 @@ int matches_leading(char *partial_line, char *pattern, int patternIndex) {
 }
 
 int rgrep_matches(char *line, char *pattern) {
-  int i = 0;
-  for(i = 0; i < strlen(pattern); i++){
-    if(matches_leading(line, pattern, 0) == 1){
-      return 1;
-    }
-    else{
-      line++;
-    }
-  }
+	int i = 0;
+	while(i < strlen(line) || i < strlen(pattern)){
+		if(matches_leading(line, pattern, 0) == 1){
+			return 1;
+		}
+		else{
+			line++;
+			++i;
+		}
+	}
 
-  return 0;
+	return 0;
 }
 
 int main(int argc, char **argv) {
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %s <PATTERN>\n", argv[0]);
-    return 2;
-  }
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s <PATTERN>\n", argv[0]);
+		return 2;
+	}
 
-  char buf[MAXSIZE];
+	char buf[MAXSIZE];
 
-  while (!feof(stdin) && !ferror(stdin)) {
-    if (!fgets(buf, sizeof(buf), stdin)) {
-      break;
-    }
-    if (rgrep_matches(buf, argv[1])) {
-      fputs(buf, stdout);
-      fflush(stdout);
-    }
-  }
+	while (!feof(stdin) && !ferror(stdin)) {
+		if (!fgets(buf, sizeof(buf), stdin)) {
+			break;
+		}
+		if (rgrep_matches(buf, argv[1])) {
+			fputs(buf, stdout);
+			fflush(stdout);
+		}
+	}
 
-  if (ferror(stdin)) {
-    perror(argv[0]);
-    return 1;
-  }
-  return 0;
+	if (ferror(stdin)) {
+		perror(argv[0]);
+		return 1;
+	}
+	return 0;
 }

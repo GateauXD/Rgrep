@@ -27,7 +27,7 @@ check: clean rgrep
 	test "`echo "aaab" | ./rgrep 'a+b'`" = "aaab"
 	test "`echo "aaab" | ./rgrep 'a+ab'`" = "aaab"
 	test "`echo "+.\?" | ./rgrep '++'`" = "+.\?"
-	test "`echo "aaabaabbba?+" | ./rgrep 'a.'`" = "aaabaabbba"
+	test "`echo "aaabaabbba?+" | ./rgrep 'a.'`" = "aaabaabbba?+"
 	test "`echo ".....a..b." | ./rgrep '\.'`" = ".....a..b."
 	test "`echo ".+.+.+.+.+" | ./rgrep '.+'`" = ".+.+.+.+.+"
 	test "`echo "a\\\avccdc" | ./rgrep '\\+'`" = "a\\\avccdc"
