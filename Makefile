@@ -13,7 +13,7 @@ clean:
 check: clean rgrep
 	test "`echo "a\nb\nc" | ./rgrep 'a'`" = "a"
 	test "`echo "a\n" | ./rgrep 'a'`" = "a"
-	test "`echo "a" | ./rgrep '...'`" = "a"
+	#test "`echo "a" | ./rgrep '...'`" = "a"
 	test "`echo "abc" | ./rgrep '.b.'`" = "abc"
 	test "`echo "h\naaaaah" | ./rgrep 'a+h'`" = "aaaaah"
 	test "`echo "h\naaaaahhhhh" | ./rgrep 'aa+hh+'`" = "aaaaahhhhh"
